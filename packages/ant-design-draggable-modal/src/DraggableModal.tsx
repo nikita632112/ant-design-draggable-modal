@@ -8,7 +8,8 @@ import { ModalProps } from 'antd/lib/modal'
 
 export interface DraggableModalProps extends ModalProps {
     initialWidth?: number
-    initialHeight?: number
+    initialHeight?: number,
+    onResize?: (width: number, height: number) => void
 }
 
 export const DraggableModal: FunctionComponent<DraggableModalProps> = (
@@ -34,5 +35,5 @@ export const DraggableModal: FunctionComponent<DraggableModalProps> = (
     // We do this so that we don't re-render all modals for every state change.
     // DraggableModalInner uses React.memo, so it only re-renders if
     // if props change (e.g. modalState).
-    return <DraggableModalInner id={id} dispatch={dispatch} modalState={modalState} {...props} />
+    return <DraggableModalInner id={id} dispatch={dispatch} modalState={modalState} onResize={props.onResize} {...props} />
 }

@@ -16,6 +16,7 @@ interface ContextProps extends DraggableModalContextMethods {
     modalState: ModalState
     initialWidth?: number
     initialHeight?: number
+    onResize?: (width: number, height: number) => void
 }
 
 export type DraggableModalInnerProps = ModalProps & { children?: React.ReactNode } & ContextProps
@@ -29,8 +30,12 @@ function DraggableModalInnerNonMemo({
     title,
     initialWidth,
     initialHeight,
+    onResize,
     ...otherProps
 }: DraggableModalInnerProps) {
+
+    const { zIndex, x, y, width, height } = modalState
+
     // Call on mount and unmount.
     useEffect(() => {
         dispatch({ type: 'mount', id, intialState: { initialWidth, initialHeight } })
@@ -49,7 +54,11 @@ function DraggableModalInnerNonMemo({
         }
     }, [visible, visiblePrevious, id, dispatch])
 
-    const { zIndex, x, y, width, height } = modalState
+    useEffect(() => {
+        if (onResize) {
+            onResize(width, height)
+        }
+    }, [width, height]);
 
     const style: React.CSSProperties = useMemo(() => ({ ...modalStyle, top: y, left: x, height }), [
         y,

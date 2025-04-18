@@ -1,5 +1,6 @@
 {
-    "version": "0.0.13",
-    "npmClient": "yarn",
-    "useWorkspaces": true
+    "version": "independent",
+    "packages": [
+        "packages/ant-design-draggable-modal"
+    ]
 }
